@@ -14,7 +14,7 @@ module.exports = {
 
     dbConnection.connect();
 
-    dbConnection.query('SELECT * FROM usernames', (err, results, fields) => {
+    dbConnection.query(query, (err, results, fields) => {
       if (err) {
         console.log(err);
       } else {

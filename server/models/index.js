@@ -17,8 +17,16 @@ module.exports = {
     }, // a function which produces all the messages
 
 
-    post: function () {
-
+    post: function (req, res) {
+      var msg = req.body;
+      var query = `INSERT INTO texts (message) values ('${msg}')`;
+      db.sendQuery.query(query, (err, results, fields) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.status(201).send();
+        }
+      });
     } // a function which can be used to insert a message into the database
   },
 

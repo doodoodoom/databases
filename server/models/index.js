@@ -5,6 +5,7 @@ module.exports = {
     get: function (req, res) {
 
       var query = 'SELECT * FROM texts';
+      //results are rows, fields are columns
       db.sendQuery.query(query, (err, results, fields) => {
         if (err) {
           console.log(err);
@@ -23,8 +24,16 @@ module.exports = {
 
   users: {
     // Ditto as above.
-    get: function () {
+    get: function (req, res) {
 
+      var query = 'SELECT * FROM usernames';
+      db.sendQuery.query(query, (err, results, fields) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.status(200).send(JSON.stringify(results));
+        }
+      });
     },
 
 

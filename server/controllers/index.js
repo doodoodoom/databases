@@ -22,7 +22,7 @@ module.exports = {
 
     },
     post: function (req, res) {
-
+      models.users.post(req, res);
     }
   }
 };

@@ -18,7 +18,7 @@ module.exports = {
 
 
     post: function (req, res) {
-      var msg = req.body;
+      var msg = JSON.stringify(req.body);
       var query = `INSERT INTO texts (message) values ('${msg}')`;
       db.sendQuery.query(query, (err, results, fields) => {
         if (err) {
@@ -46,8 +46,16 @@ module.exports = {
 
 
 
-    post: function () {
-
+    post: function (req, res) {
+      var username = JSON.stringify(req.body);
+      var query = `INSERT INTO usernames (name) values ('${username}')`;
+      db.sendQuery.query(query, (err, results, fields) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.status(201).send();
+        }
+      });
     }
   }
 };

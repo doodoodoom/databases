@@ -4,7 +4,13 @@ module.exports = {
   messages: {
     get: function (req, res) {
 
-      models.messages.get(req, res);
+      models.messages.get((err, results) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.status(200).send(JSON.stringify(results));
+        }
+      });
 
     }, // a function which handles a get request for all messages
     post: function (req, res) {
@@ -18,7 +24,13 @@ module.exports = {
     // Ditto as above
     get: function (req, res) {
 
-      models.users.get(req, res);
+      models.users.get((err, results) => {
+        if (err) {
+          console.log(err);
+        } else {
+          res.status(200).send(JSON.stringify(results));
+        }
+      });
 
     },
     post: function (req, res) {

@@ -2,15 +2,15 @@ var db = require('../db');
 
 module.exports = {
   messages: {
-    get: function (req, res) {
+    get: function (callback) {
 
-      var query = 'SELECT * FROM texts';
+      var query = 'SELECT messages.id, messages.text, messages.roomname, usernames.name FROM messages LEFT OUTER JOIN usernames ON (messages.username = usernames.id)';
       //results are rows, fields are columns
-      db.sendQuery.query(query, (err, results, fields) => {
+      db.query(query, (err, results) => {
         if (err) {
-          console.log(err);
+          callback(err);
         } else {
-          res.status(200).send(JSON.stringify(results));
+          callback(null, results);
         }
       });
 
@@ -19,7 +19,7 @@ module.exports = {
 
     post: function (req, res) {
       var msg = JSON.stringify(req.body);
-      var query = `INSERT INTO texts (message) values ('${msg}')`;
+      var query = `INSERT INTO messages (text) values ('${msg}')`;
       db.sendQuery.query(query, (err, results, fields) => {
         if (err) {
           console.log(err);
@@ -32,14 +32,14 @@ module.exports = {
 
   users: {
     // Ditto as above.
-    get: function (req, res) {
+    get: function (callback) {
 
       var query = 'SELECT * FROM usernames';
-      db.sendQuery.query(query, (err, results, fields) => {
+      db.sendQuery.query(query, (err, results) => {
         if (err) {
-          console.log(err);
+          callback(err);
         } else {
-          res.status(200).send(JSON.stringify(results));
+          callback(null, results);
         }
       });
     },

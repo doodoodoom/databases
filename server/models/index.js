@@ -17,14 +17,14 @@ module.exports = {
     }, // a function which produces all the messages
 
 
-    post: function (req, res) {
-      var msg = JSON.stringify(req.body);
-      var query = `INSERT INTO messages (text) values ('${msg}')`;
-      db.sendQuery.query(query, (err, results, fields) => {
+    post: function (params, callback) {
+      // var msg = JSON.stringify(req.body);
+      var query = 'INSERT INTO messages (text, username, roomname) VALUE (?, (SELECT id FROM usernames WHERE name = ? LIMIT 1), ?)';
+      db.query(query, params, (err, results) => {
         if (err) {
-          console.log(err);
+          callback(err);
         } else {
-          res.status(201).send();
+          callback(null, results);
         }
       });
     } // a function which can be used to insert a message into the database
@@ -35,7 +35,7 @@ module.exports = {
     get: function (callback) {
 
       var query = 'SELECT * FROM usernames';
-      db.sendQuery.query(query, (err, results) => {
+      db.query(query, (err, results) => {
         if (err) {
           callback(err);
         } else {
@@ -46,14 +46,13 @@ module.exports = {
 
 
 
-    post: function (req, res) {
-      var username = JSON.stringify(req.body);
-      var query = `INSERT INTO usernames (name) values ('${username}')`;
-      db.sendQuery.query(query, (err, results, fields) => {
+    post: function (params, callback) {
+      var query = 'INSERT INTO usernames (name) VALUE (?)';
+      db.query(query, params, (err, results) => {
         if (err) {
-          console.log(err);
+          callback(err);
         } else {
-          res.status(201).send();
+          callback(err, results);
         }
       });
     }
